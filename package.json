@@ -10,7 +10,7 @@
     "test": "node test-worker.mjs"
   },
   "dependencies": {
-    "spike-qubo-solver": "file:../spike-qubo-solver"
+    "@sparse-supernova/spike-qubo-solver": "^1.0.0"
   },
   "devDependencies": {
     "wrangler": "^3.0.0"
@@ -19,4 +19,3 @@
     "node": ">=20.0.0"
   }
 }
-

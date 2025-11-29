@@ -57,11 +57,11 @@ export default {
 
         // Determine problem type
         if (problem.kind === 'qubo') {
-          // QUBO problem: { kind: 'qubo', payload: { n, terms } }
-          if (!problem.payload || !problem.payload.n || !problem.payload.terms) {
+          // QUBO problem: { kind: 'qubo', payload: Array<[i, j, weight]> }
+          if (!problem.payload || !Array.isArray(problem.payload)) {
             return new Response(
               JSON.stringify({
-                error: 'Invalid QUBO problem. Expected { kind: "qubo", payload: { n, terms } }',
+                error: 'Invalid QUBO problem. Expected { kind: "qubo", payload: [[i, j, weight], ...] }',
               }),
               {
                 status: 400,
@@ -69,7 +69,13 @@ export default {
               }
             );
           }
-          result = await solveQubo(problem.payload, options);
+          // Map options: maxSteps -> maxSteps, seed -> seed, trace -> trace
+          const solverOptions = {
+            maxSteps: options.maxSteps || options.maxIterations || 2000,
+            seed: options.seed,
+            trace: options.trace || false
+          };
+          result = await solveQubo(problem.payload, solverOptions);
         } else if (problem.kind === 'maxcut') {
           // Max-Cut problem: { kind: 'maxcut', payload: { n, edges } }
           if (!problem.payload || !problem.payload.n || !problem.payload.edges) {
@@ -84,7 +90,13 @@ export default {
               }
             );
           }
-          result = await solveMaxCut(problem.payload, options);
+          // Map options
+          const solverOptions = {
+            maxSteps: options.maxSteps || options.maxIterations || 2000,
+            seed: options.seed,
+            trace: options.trace || false
+          };
+          result = await solveMaxCut(problem.payload, solverOptions);
         } else {
           return new Response(
             JSON.stringify({
@@ -99,11 +111,11 @@ export default {
 
         // Return simplified response (no USL internals)
         const response = {
-          bestEnergy: result.bestEnergy ?? result.cutValue,
-          state: result.state ?? result.bestCut,
+          bestEnergy: result.bestEnergy,
+          state: result.state,
           iterations: result.iterations,
           timeMs: result.timeMs,
-          earlyTermination: result.earlyTermination,
+          ...(result.cutValue !== undefined && { cutValue: result.cutValue })
         };
 
         return new Response(JSON.stringify(response), {

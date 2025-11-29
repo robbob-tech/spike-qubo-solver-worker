@@ -14,17 +14,14 @@ async function testWorker() {
     body: JSON.stringify({
       problem: {
         kind: 'qubo',
-        payload: {
-          n: 5,
-          terms: [
-            [0, 0, -1],
-            [1, 1, -1],
-            [0, 1, 1],
-          ],
-        },
+        payload: [
+          [0, 0, -1],
+          [1, 1, -1],
+          [0, 1, 1],
+        ],
       },
       options: {
-        maxIterations: 500,
+        maxSteps: 500,
       },
     }),
   });

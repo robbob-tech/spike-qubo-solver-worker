@@ -1,0 +1,14 @@
+# wrangler.toml
+# Cloudflare Worker configuration for spike-qubo-solver
+
+name = "spike-qubo-solver-worker"
+main = "worker.mjs"
+compatibility_date = "2024-11-29"
+
+[build]
+command = "npm install"
+
+# Environment variables (if needed)
+# [vars]
+# EXAMPLE_VAR = "value"
+

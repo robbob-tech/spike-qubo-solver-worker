@@ -1,0 +1,22 @@
+{
+  "name": "spike-qubo-solver-worker",
+  "version": "1.0.0",
+  "description": "Cloudflare Worker wrapper for spike-qubo-solver",
+  "type": "module",
+  "main": "worker.mjs",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test": "node test-worker.mjs"
+  },
+  "dependencies": {
+    "spike-qubo-solver": "file:../spike-qubo-solver"
+  },
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
+

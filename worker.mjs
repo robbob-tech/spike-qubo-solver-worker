@@ -5,7 +5,7 @@
 // Note: This worker uses the open-source spike-qubo-solver package.
 // No USL/FRAI metrics or advanced diagnostics are included.
 
-import { solveQubo, solveMaxCut } from 'spike-qubo-solver';
+import { solveQubo, solveMaxCut } from '@sparse-supernova/spike-qubo-solver';
 
 /**
  * Handle incoming requests
